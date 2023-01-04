@@ -8,8 +8,9 @@
             "defines": [],
             "cStandard": "c17",
             "cppStandard": "c++14",
-            "intelliSenseMode": "macos-clang-arm64",
-            "configurationProvider": "${default}"
+            "intelliSenseMode": "macos-gcc-x64",
+            "configurationProvider": "${default}",
+            "compilerPath": "/usr/bin/clang++"
         }
     ],
     "version": 4
