@@ -17,7 +17,7 @@
                 "${workspaceFolder}/ExternalLibs/GLEW/lib/libGLEW.2.2.0.dylib",
                 "-I${workspaceFolder}/ExternalLibs/GLFW/include",
                 "${workspaceFolder}/ExternalLibs/GLFW/lib-arm64/libglfw.3.dylib",
-                "/opt/homebrew/Cellar/glew/2.2.0_1/lib/libGLEW.2.2.0.dylib",
+                "/usr/local/lib/libglfw.3.dylib",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
                 "-framework",
