@@ -16,7 +16,7 @@
                 "-I${workspaceFolder}/ExternalLibs/GLEW/include",
                 "${workspaceFolder}/ExternalLibs/GLEW/lib/libGLEW.2.2.0.dylib",
                 "-I${workspaceFolder}/ExternalLibs/GLFW/include",
-                "${workspaceFolder}/ExternalLibs/GLFW/lib-arm64/libglfw.3.dylib",
+                "${workspaceFolder}/ExternalLibs/GLFW/lib-x86_64/libglfw.3.dylib",
                 "/usr/local/lib/libglfw.3.dylib",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
