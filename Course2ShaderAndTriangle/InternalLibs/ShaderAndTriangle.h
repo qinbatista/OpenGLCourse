@@ -1,7 +1,7 @@
 #ifndef ShaderAndTriangle
 #define ShaderAndTriangle
 #include "GL/glew.h"
-GLuint VAO, VBO, _shader;
+
 void DrawTriangle();
 void CreateTriangle();
 void CompileShaders();

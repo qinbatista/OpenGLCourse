@@ -3,7 +3,7 @@
 #include "GL/glew.h"
 #include <stdio.h>
 #include <string.h>
-
+GLuint VAO, VBO, _shader;
 // Vertex Shader
 static const char *vShader = " #version 330 core"
                              " layout (location = 0) in vec3 pos;"
@@ -84,4 +84,12 @@ void CreateTriangle()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+}
+void DrawTriangle()
+{
+    glUseProgram(_shader);
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindVertexArray(0);
+    glUseProgram(0);
 }
