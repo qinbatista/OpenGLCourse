@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "ShaderAndTriangle.h"
 void Awake()
 {
@@ -9,9 +10,5 @@ void Awake()
 }
 void Update()
 {
-    if(direction)
-        triOffset += triIncrement;
-    else
-        triOffset -= triIncrement;
     DrawTriangle();
 }

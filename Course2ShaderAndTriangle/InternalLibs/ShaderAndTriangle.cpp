@@ -94,7 +94,14 @@ void CreateTriangle()
 }
 void DrawTriangle()
 {
+    if (direction)
+        triOffset += triIncrement;
+    else
+        triOffset -= triIncrement;
+    if (abs(triOffset) >= triMaxOffset)
+        direction = !direction;
     glUseProgram(shader);
+    glUniform1f(uniformXMove, triOffset);
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);
