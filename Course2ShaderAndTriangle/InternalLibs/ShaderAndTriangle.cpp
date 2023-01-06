@@ -2,49 +2,56 @@
 #include "ShaderAndTriangle.h"
 #include "GL/glew.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-GLuint VAO, VBO, _shader;
+GLuint VAO, VBO, shader, uniformXMove;
+bool direction = true;
+float triOffset = 0.0f;
+float triMaxOffset = 0.7f;
+float triIncrement = 0.0005f;
 // Vertex Shader
 static const char *vShader = " #version 330 core"
                              " layout (location = 0) in vec3 pos;"
+                             " uniform float xMove;"
                              " void main()"
                              " {"
-                             " gl_Position = vec4(0.4 * pos.x, 0.4 * pos.y, pos.z, 1.0);"
+                             "      gl_Position = vec4(1 * pos.x+xMove, 1 * pos.y, pos.z, 1.0);"
                              " }";
 // Fragment Shader
 static const char *fShader = " #version 330 core"
                              " out vec4 color;"
                              " void main()"
                              " {"
-                             " color = vec4(1.0f, 0.5f, 0.2f, 1.0f);"
+                             "      color = vec4(1.0f, 0.5f, 0.2f, 1.0f);"
                              " }";
 void CompileShaders()
 {
-    _shader = glCreateProgram();
-    if (!_shader)
+    shader = glCreateProgram();
+    if (!shader)
     {
         printf("Shader creation failed!");
         return;
     }
-    AddShader(_shader, vShader, GL_VERTEX_SHADER);
-    AddShader(_shader, fShader, GL_FRAGMENT_SHADER);
+    AddShader(shader, vShader, GL_VERTEX_SHADER);
+    AddShader(shader, fShader, GL_FRAGMENT_SHADER);
     GLint result = 0;
     GLchar eLog[1024] = {0};
-    glLinkProgram(_shader);
-    glGetProgramiv(_shader, GL_LINK_STATUS, &result);
+    glLinkProgram(shader);
+    glGetProgramiv(shader, GL_LINK_STATUS, &result);
     if (!result)
     {
-        glGetProgramInfoLog(_shader, sizeof(eLog), NULL, eLog);
+        glGetProgramInfoLog(shader, sizeof(eLog), NULL, eLog);
         printf("Error linking program: '%s'\n", eLog);
         return;
     }
-    glValidateProgram(_shader);
+    glValidateProgram(shader);
     if (!result)
     {
-        glGetProgramInfoLog(_shader, sizeof(eLog), NULL, eLog);
+        glGetProgramInfoLog(shader, sizeof(eLog), NULL, eLog);
         printf("Error validating program: '%s'\n", eLog);
         return;
     }
+    uniformXMove = glGetUniformLocation(shader, "xMove");
 }
 void AddShader(GLuint theProgram, const char *shaderCode, GLenum shaderType)
 {
@@ -87,7 +94,7 @@ void CreateTriangle()
 }
 void DrawTriangle()
 {
-    glUseProgram(_shader);
+    glUseProgram(shader);
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);

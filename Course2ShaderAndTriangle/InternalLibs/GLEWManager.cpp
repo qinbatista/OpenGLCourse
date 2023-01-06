@@ -2,7 +2,7 @@
 #include <string.h>
 #include "GLEWManager.h"
 #include "GLFWManager.h"
-#include "ShaderAndTriangle.h"
+#include "DisplayManager.h"
 int InitGLEW(GLFWwindow *mainWindow, GLint width, GLint height)
 {
     glewExperimental = GL_TRUE;
@@ -13,8 +13,7 @@ int InitGLEW(GLFWwindow *mainWindow, GLint width, GLint height)
         glfwTerminate();
         return true;
     }
-    CreateTriangle();
-    CompileShaders();
+    Awake();
     // Setup Viewport size
     glViewport(0, 0, width, height);
     // Loop until window closed
@@ -25,7 +24,9 @@ int InitGLEW(GLFWwindow *mainWindow, GLint width, GLint height)
         // Clear window
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        DrawTriangle();
+
+
+        Update();
         // Swap buffers
         glfwSwapBuffers(mainWindow);
     }

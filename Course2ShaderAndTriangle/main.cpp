@@ -3,7 +3,6 @@
 #include "InternalLibs/GLEWManager.h"
 #include <stdio.h>
 #include <string.h>
-
 GLFWwindow* mainWindow;
 int main()
 {
