@@ -8,7 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-GLuint VAO, VBO, IBO, shader, uniformModel;
+#include "DisplayManager.h"
+GLuint VAO, VBO, IBO, shader, uniformModel, uniformProjection;
 bool direction = true;
 float triOffset = 0.0f;
 float triMaxOffset = 0.7f;
@@ -24,9 +25,10 @@ static const char *vShader = " #version 330 core"
                              " layout (location = 0) in vec3 pos;"
                              " out vec4 vColor;"
                              " uniform mat4 model;"
+                             " uniform mat4 projection;"
                              " void main()"
                              " {"
-                             "      gl_Position = model * vec4(pos, 1.0);"
+                             "      gl_Position = projection * model * vec4(pos, 1.0);"
                              "      vColor = vec4(clamp(pos, 0.0, 1.0), 1.0);"
                              " }";
 // Fragment Shader
@@ -65,6 +67,8 @@ void CompileShaders()
         return;
     }
     uniformModel = glGetUniformLocation(shader, "model");
+    uniformProjection = glGetUniformLocation(shader, "projection");
+
 }
 void AddShader(GLuint theProgram, const char *shaderCode, GLenum shaderType)
 {
@@ -143,11 +147,13 @@ void DrawTriangle()
         sizeDirection = !sizeDirection;
     glUseProgram(shader);
     glm::mat4 model(1.0f);
+    model = glm::translate(model, glm::vec3(triOffset, 0.0f, -3.0f));
     model = glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-    // model = glm::translate(model, glm::vec3(triOffset, 0.0f, 0.0f));
-    // model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
+    model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
     // glUniform1f(uniformModel, triOffset);
     glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+    glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
+
     glBindVertexArray(VAO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 

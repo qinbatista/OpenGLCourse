@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "GLFWManager.h"
+GLint HEIGHT = 600;
+GLint WIDTH = 800;
 GLFWwindow* InitGLFW()
 {
     // initialise GLFW
