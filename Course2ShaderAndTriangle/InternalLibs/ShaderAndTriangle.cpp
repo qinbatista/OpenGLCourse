@@ -1,13 +1,14 @@
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <vector>
 #include "ShaderAndTriangle.h"
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/mat4x4.hpp"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "DisplayManager.h"
 GLuint VAO, VBO, IBO, shader, uniformModel, uniformProjection;
 bool direction = true;
