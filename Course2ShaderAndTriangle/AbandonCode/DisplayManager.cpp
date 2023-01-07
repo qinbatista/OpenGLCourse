@@ -9,7 +9,6 @@ void Awake()
 {
     CreateObjects();
     CreateShaders();
-    DisplayProjection = glm::perspective(45.0f, mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 100.0f);
 }
 void Update()
 {

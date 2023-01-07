@@ -1,7 +1,8 @@
 #ifndef ShaderAndTriangle
 #define ShaderAndTriangle
 #include "GL/glew.h"
-void DrawTriangle();
+#include "glm/gtc/matrix_transform.hpp"
+void DrawTriangle(glm::mat4 DisplayProjection);
 void CreateObjects();
 void CreateShaders();
 void AddShader(GLuint theProgram, const char *shaderCode, GLenum shaderType);

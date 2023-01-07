@@ -2,7 +2,6 @@
 #include "../Class/Mesh.h"
 #include "../Class/Shader.h"
 #include "ShaderAndTriangle.h"
-#include "DisplayManager.h"
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -58,7 +57,7 @@ void CreateObjects()
     obj2->CreateMesh(vertices, indices, 12, 12);
     meshList.push_back(obj2);
 }
-void DrawTriangle()
+void DrawTriangle(glm::mat4 DisplayProjection)
 {
     if (direction)
         triOffset += triIncrement;
