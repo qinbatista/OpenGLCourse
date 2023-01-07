@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-GLuint VAO, VBO, shader, uniformModel;
+GLuint VAO, VBO, IBO, shader, uniformModel;
 bool direction = true;
 float triOffset = 0.0f;
 float triMaxOffset = 0.7f;
@@ -22,17 +22,20 @@ float minSize = 0.1f;
 // Vertex Shader
 static const char *vShader = " #version 330 core"
                              " layout (location = 0) in vec3 pos;"
+                             " out vec4 vColor;"
                              " uniform mat4 model;"
                              " void main()"
                              " {"
                              "      gl_Position = model * vec4(pos, 1.0);"
+                             "      vColor = vec4(clamp(pos, 0.0, 1.0), 1.0);"
                              " }";
 // Fragment Shader
 static const char *fShader = " #version 330 core"
+                             " in vec4 vColor;"
                              " out vec4 color;"
                              " void main()"
                              " {"
-                             "      color = vec4(1.0f, 0.5f, 0.2f, 1.0f);"
+                             "      color = vColor;"
                              " }";
 void CompileShaders()
 {
@@ -85,13 +88,24 @@ void AddShader(GLuint theProgram, const char *shaderCode, GLenum shaderType)
 }
 void CreateTriangle()
 {
+    unsigned int indices[] = {
+        0, 3, 1,
+        1, 3, 2,
+        2, 3, 0,
+        0, 1, 2};
     // printf("aaaaaaaaaaaaaa%sn",&vShader);
     GLfloat vertices[] = {
         -1.0f, -1.0f, 0.0f,
+        0.0f, -1.0f, 1.0f,
         1.0f, -1.0f, 0.0f,
         0.0f, 1.0f, 0.0f};
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
+
+    glGenBuffers(1, &IBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -100,6 +114,8 @@ void CreateTriangle()
     glEnableVertexAttribArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
     glBindVertexArray(0);
 }
 void DrawTriangle()
@@ -119,21 +135,26 @@ void DrawTriangle()
     }
 
     if (sizeDirection)
-        curSize += 0.001f;
+        curSize += 0.01f;
     else
-        curSize -= 0.001f;
+        curSize -= 0.01f;
 
     if (curSize >= maxSize || curSize <= minSize)
         sizeDirection = !sizeDirection;
     glUseProgram(shader);
     glm::mat4 model(1.0f);
+    model = glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
     // model = glm::translate(model, glm::vec3(triOffset, 0.0f, 0.0f));
-    // model = glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-    model = glm::scale(model, glm::vec3(curSize, curSize, 1.0f));
+    // model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
     // glUniform1f(uniformModel, triOffset);
     glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
     glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+
+    glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    // glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);
     glUseProgram(0);
 }
