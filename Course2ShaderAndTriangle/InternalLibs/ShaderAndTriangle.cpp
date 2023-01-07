@@ -25,29 +25,14 @@ float sizeDirection = true;
 float curSize = 0.4f;
 float maxSize = 0.8f;
 float minSize = 0.1f;
-// Vertex Shader
-static const char *vShader = " #version 330 core"
-                             " layout (location = 0) in vec3 pos;"
-                             " out vec4 vColor;"
-                             " uniform mat4 model;"
-                             " uniform mat4 projection;"
-                             " void main()"
-                             " {"
-                             "      gl_Position = projection * model * vec4(pos, 1.0);"
-                             "      vColor = vec4(clamp(pos, 0.0, 1.0), 1.0);"
-                             " }";
 // Fragment Shader
-static const char *fShader = " #version 330 core"
-                             " in vec4 vColor;"
-                             " out vec4 color;"
-                             " void main()"
-                             " {"
-                             "      color = vColor;"
-                             " }";
+static const char *fShader = "Shader/shader.frag";
+// Vertex Shader
+static const char *vShader = "Shader/shader.vert";
 void CreateShaders()
 {
     Shader *shader1 = new Shader();
-    shader1->CreateFromString(vShader, fShader);
+    shader1->CreateFromFiles(vShader, fShader);
     shaderList.push_back(*shader1);
     // shader = *shader1;
     uniformModel = shaderList[0].GetModelLocation();
