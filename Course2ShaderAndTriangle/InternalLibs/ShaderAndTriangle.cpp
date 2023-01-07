@@ -26,9 +26,9 @@ float curSize = 0.4f;
 float maxSize = 0.8f;
 float minSize = 0.1f;
 // Fragment Shader
-static const char *fShader = "Shader/shader.frag";
+static const char *fShader = "Shaders/shader.frag";
 // Vertex Shader
-static const char *vShader = "Shader/shader.vert";
+static const char *vShader = "Shaders/shader.vert";
 void CreateShaders()
 {
     Shader *shader1 = new Shader();
