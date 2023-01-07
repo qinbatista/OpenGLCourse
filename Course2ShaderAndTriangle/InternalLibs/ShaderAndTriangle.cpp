@@ -11,6 +11,7 @@
 #include "glm/mat4x4.hpp"
 #include "DisplayManager.h"
 #include "../Class/Mesh.h"
+#include "../Class/Shader.h"
 GLuint VAO, VBO, IBO, shader, uniformModel, uniformProjection;
 bool direction = true;
 float triOffset = 0.0f;
@@ -18,7 +19,7 @@ float triMaxOffset = 0.7f;
 float triIncrement = 0.005f;
 const float toRadians = 3.14159265f / 180.0f;
 std::vector<Mesh*> meshList;
-
+std::vector<Shader> shaderList;
 float curAngle = 0.0f;
 float sizeDirection = true;
 float curSize = 0.4f;
