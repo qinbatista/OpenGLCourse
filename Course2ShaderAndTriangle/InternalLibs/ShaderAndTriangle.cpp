@@ -4,18 +4,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "glm/mat4x4.hpp"
 GLuint VAO, VBO, shader, uniformXMove;
 bool direction = true;
 float triOffset = 0.0f;
 float triMaxOffset = 0.7f;
-float triIncrement = 0.0005f;
+float triIncrement = 0.005f;
 // Vertex Shader
 static const char *vShader = " #version 330 core"
                              " layout (location = 0) in vec3 pos;"
                              " uniform float xMove;"
                              " void main()"
                              " {"
-                             "      gl_Position = vec4(1 * pos.x+xMove, 1 * pos.y, pos.z, 1.0);"
+                             "      gl_Position = vec4(0.4f * pos.x+xMove, 0.4f * pos.y, pos.z, 1.0);"
                              " }";
 // Fragment Shader
 static const char *fShader = " #version 330 core"
