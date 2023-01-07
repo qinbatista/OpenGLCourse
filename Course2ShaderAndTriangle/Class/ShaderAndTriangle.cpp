@@ -1,6 +1,6 @@
 
-#include "../Class/Mesh.h"
-#include "../Class/Shader.h"
+#include "../InternalLibs/Mesh.h"
+#include "../InternalLibs/Shader.h"
 #include "ShaderAndTriangle.h"
 #include "GL/glew.h"
 #include "glm/glm.hpp"

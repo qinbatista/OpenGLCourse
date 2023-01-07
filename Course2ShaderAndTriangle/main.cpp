@@ -1,5 +1,5 @@
 #include "GL/glew.h"
-#include "InternalLibs/DisplaySystem.h"
+#include "Class/DisplaySystem.h"
 #include "InternalLibs/Window.h"
 #include "glm/gtc/matrix_transform.hpp"
 Window mainWindow;
