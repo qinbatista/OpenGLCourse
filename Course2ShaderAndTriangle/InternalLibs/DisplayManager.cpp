@@ -5,11 +5,11 @@
 #include "ShaderAndTriangle.h"
 #include "glm/gtc/matrix_transform.hpp"
 #include "GLFWManager.h"
-glm::mat4 projection;
+glm::mat4 DisplayProjection;
 void Awake()
 {
     CreateObjects();
-    projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+    DisplayProjection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
     CreateShaders();
 }
 void Update()
