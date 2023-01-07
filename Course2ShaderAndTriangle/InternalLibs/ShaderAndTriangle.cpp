@@ -1,24 +1,24 @@
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <vector>
+#include "../Class/Mesh.h"
+#include "../Class/Shader.h"
 #include "ShaderAndTriangle.h"
+#include "DisplayManager.h"
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/mat4x4.hpp"
-#include "DisplayManager.h"
-#include "../Class/Mesh.h"
-#include "../Class/Shader.h"
-GLuint VAO, VBO, IBO, shader, uniformModel, uniformProjection;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <vector>
+GLuint uniformModel, uniformProjection;
 bool direction = true;
 float triOffset = 0.0f;
 float triMaxOffset = 0.7f;
 float triIncrement = 0.005f;
 const float toRadians = 3.14159265f / 180.0f;
-std::vector<Mesh*> meshList;
+std::vector<Mesh *> meshList;
 std::vector<Shader> shaderList;
 float curAngle = 0.0f;
 float sizeDirection = true;
@@ -44,58 +44,16 @@ static const char *fShader = " #version 330 core"
                              " {"
                              "      color = vColor;"
                              " }";
-void CompileShaders()
+void CreateShaders()
 {
-    shader = glCreateProgram();
-    if (!shader)
-    {
-        printf("Shader creation failed!");
-        return;
-    }
-    AddShader(shader, vShader, GL_VERTEX_SHADER);
-    AddShader(shader, fShader, GL_FRAGMENT_SHADER);
-    GLint result = 0;
-    GLchar eLog[1024] = {0};
-    glLinkProgram(shader);
-    glGetProgramiv(shader, GL_LINK_STATUS, &result);
-    if (!result)
-    {
-        glGetProgramInfoLog(shader, sizeof(eLog), NULL, eLog);
-        printf("Error linking program: '%s'\n", eLog);
-        return;
-    }
-    glValidateProgram(shader);
-    if (!result)
-    {
-        glGetProgramInfoLog(shader, sizeof(eLog), NULL, eLog);
-        printf("Error validating program: '%s'\n", eLog);
-        return;
-    }
-    uniformModel = glGetUniformLocation(shader, "model");
-    uniformProjection = glGetUniformLocation(shader, "projection");
-
+    Shader *shader1 = new Shader();
+    shader1->CreateFromString(vShader, fShader);
+    shaderList.push_back(*shader1);
+    // shader = *shader1;
+    uniformModel = shaderList[0].GetModelLocation();
+    uniformProjection = shaderList[0].GetProjectionLocation();
 }
-void AddShader(GLuint theProgram, const char *shaderCode, GLenum shaderType)
-{
-    GLuint theShader = glCreateShader(shaderType);
-    const GLchar *theCode[1];
-    theCode[0] = shaderCode;
-    GLint codeLength[1];
-    codeLength[0] = strlen(shaderCode);
-    glShaderSource(theShader, 1, theCode, codeLength);
-    glCompileShader(theShader);
-    GLint result = 0;
-    GLchar eLog[1024] = {0};
-    glGetShaderiv(theShader, GL_COMPILE_STATUS, &result);
-    if (!result)
-    {
-        glGetShaderInfoLog(theShader, sizeof(eLog), NULL, eLog);
-        printf("Error compiling the %d shader: '%sn'", shaderType, eLog);
-        return;
-    }
-    glAttachShader(theProgram, theShader);
-}
-void CreateTriangle()
+void CreateObjects()
 {
     unsigned int indices[] = {
         0, 3, 1,
@@ -124,13 +82,11 @@ void DrawTriangle()
 
     if (abs(triOffset) >= triMaxOffset)
         direction = !direction;
-
     curAngle += 1.0f;
     if (curAngle > 360)
     {
         curAngle -= 360;
     }
-
     if (sizeDirection)
         curSize += 0.01f;
     else
@@ -138,13 +94,16 @@ void DrawTriangle()
 
     if (curSize >= maxSize || curSize <= minSize)
         sizeDirection = !sizeDirection;
-    glUseProgram(shader);
+
+    shaderList[0].UseShader();
+    uniformModel = shaderList[0].GetModelLocation();
+    uniformProjection = shaderList[0].GetProjectionLocation();
+
 
     glm::mat4 model(1.0f);
     model = glm::translate(model, glm::vec3(triOffset, 0.0f, -3.0f));
     // model = glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
-    // glUniform1f(uniformModel, triOffset);
     glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
     meshList[0]->RenderMesh();

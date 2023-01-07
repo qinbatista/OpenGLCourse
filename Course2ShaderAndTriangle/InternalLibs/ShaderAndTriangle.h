@@ -2,8 +2,8 @@
 #define ShaderAndTriangle
 #include "GL/glew.h"
 void DrawTriangle();
-void CreateTriangle();
-void CompileShaders();
+void CreateObjects();
+void CreateShaders();
 void AddShader(GLuint theProgram, const char *shaderCode, GLenum shaderType);
 extern bool direction;
 extern float triOffset;

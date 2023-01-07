@@ -30,7 +30,6 @@ void Shader::CompileShader(const char *vertexCode, const char *fragmentCode)
         return;
     }
     glValidateProgram(shaderID);
-    glGetProgramiv(shaderID, GL_VALIDATE_STATUS, &result);
     if (!result)
     {
         glGetProgramInfoLog(shaderID, sizeof(eLog), NULL, eLog);
