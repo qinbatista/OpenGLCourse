@@ -9,8 +9,8 @@ glm::mat4 projection;
 void Awake()
 {
     CreateObjects();
-    CreateShaders();
     projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+    CreateShaders();
 }
 void Update()
 {
