@@ -9,8 +9,8 @@ class DisplaySystem
 public:
     DisplaySystem();
     DisplaySystem(GLfloat aspectRatio);
-    void Awake();
-    void Update(Camera camera);
+    void Awake(Camera camera);
+    void Update();
     glm::mat4 GetProjection();
     ~DisplaySystem();
     glm::mat4 DisplayProjection;

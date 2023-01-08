@@ -13,11 +13,11 @@ int main()
     mainWindow.Initialise();
     displaySystem = DisplaySystem(mainWindow.getBufferWidth() / mainWindow.getBufferHeight());
     camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 1.0, 1.0f);
-    displaySystem.Awake();
+    displaySystem.Awake(camera);
     while (!mainWindow.getShouldClose())
     {
         // Get and handle user input events
-        GLfloat now = glfwGetTime();
+        now = glfwGetTime();
         deltaTime = now - lastTime;
         lastTime = now;
         glfwPollEvents();
@@ -25,7 +25,7 @@ int main()
         // Clear window
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        displaySystem.Update(camera);
+        displaySystem.Update();
         // Swap buffers
         mainWindow.swapBuffers();
     }
