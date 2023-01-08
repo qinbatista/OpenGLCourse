@@ -4,8 +4,15 @@ Window::Window()
 {
 	width = 800;
 	height = 600;
+    for(size_t i = 0; i < 1024; i++)
+    {
+        keys[i] = 0;
+    }
 }
-
+void Window::createCallbacks()
+{
+    glfwSetKeyCallback(mainWindow, handleKeys);
+}
 Window::Window(GLint windowWidth, GLint windowHeight)
 {
 	width = windowWidth;
@@ -40,6 +47,8 @@ int Window::Initialise()
 	glfwGetFramebufferSize(mainWindow, &bufferWidth, &bufferHeight);
 	// Set the current context
 	glfwMakeContextCurrent(mainWindow);
+    // Handle Key + Mouse Input
+    createCallbacks();
 	// Allow modern extension access
 	glewExperimental = GL_TRUE;
 	GLenum error = glewInit();
@@ -53,9 +62,30 @@ int Window::Initialise()
 	glEnable(GL_DEPTH_TEST);
 	// Create Viewport
 	glViewport(0, 0, bufferWidth, bufferHeight);
+    glfwSetWindowUserPointer(mainWindow, this);
     return 0;
 }
-
+void Window::handleKeys(GLFWwindow* window, int key, int code, int action, int mode)
+{
+    Window* theWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+    {
+        glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+    if(key >= 0 && key < 1024)
+    {
+        if(action == GLFW_PRESS)
+        {
+            theWindow->keys[key] = true;
+            printf("Pressed: %d\n");
+        }
+        else if(action == GLFW_RELEASE)
+        {
+            theWindow->keys[key] = false;
+            printf("Released: %d\n");
+        }
+    }
+}
 
 Window::~Window()
 {
