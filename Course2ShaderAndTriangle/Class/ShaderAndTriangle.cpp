@@ -1,7 +1,7 @@
 
+#include "ShaderAndTriangle.h"
 #include "../InternalLibs/Mesh.h"
 #include "../InternalLibs/Shader.h"
-#include "ShaderAndTriangle.h"
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <vector>
-GLuint uniformModel, uniformProjection;
+GLuint uniformModel, uniformProjection, uniformView;
 bool direction = true;
 float triOffset = 0.0f;
 float triMaxOffset = 0.7f;
@@ -33,7 +33,7 @@ void CreateShaders()
     Shader *shader1 = new Shader();
     shader1->CreateFromFiles(vShader, fShader);
     shaderList.push_back(*shader1);
-    // shader = *shader1;
+
     uniformModel = shaderList[0].GetModelLocation();
     uniformProjection = shaderList[0].GetProjectionLocation();
 }
@@ -57,7 +57,7 @@ void CreateObjects()
     obj2->CreateMesh(vertices, indices, 12, 12);
     meshList.push_back(obj2);
 }
-void DrawTriangle(glm::mat4 DisplayProjection)
+void DrawTriangle(glm::mat4 DisplayProjection, glm::mat4 calculateViewMatrix)
 {
     if (direction)
         triOffset += triIncrement;
@@ -82,7 +82,7 @@ void DrawTriangle(glm::mat4 DisplayProjection)
     shaderList[0].UseShader();
     uniformModel = shaderList[0].GetModelLocation();
     uniformProjection = shaderList[0].GetProjectionLocation();
-
+    uniformView = shaderList[0].GetViewLocation();
 
     glm::mat4 model(1.0f);
     model = glm::translate(model, glm::vec3(triOffset, 0.0f, -3.0f));
@@ -90,6 +90,7 @@ void DrawTriangle(glm::mat4 DisplayProjection)
     model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
     glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(DisplayProjection));
+    glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(calculateViewMatrix));
     meshList[0]->RenderMesh();
 
     model = glm::mat4(1.0f);

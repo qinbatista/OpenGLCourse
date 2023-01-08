@@ -8,6 +8,9 @@ Window::Window()
     {
         keys[i] = 0;
     }
+    xChange = 0.0f;
+    yChange = 0.0f;
+    mouseFirstMoved = true;
 }
 void Window::createCallbacks()
 {

@@ -13,11 +13,12 @@ public:
     std::string ReadFile(const char *fileLocation);
     GLuint GetProjectionLocation();
     GLuint GetModelLocation();
+    GLuint GetViewLocation();
     void UseShader();
     void ClearShader();
     void AddShader(GLuint theProgram, const char *shaderCode, GLenum shaderType);
     ~Shader();
 private:
-    GLuint shaderID, uniformProjection, uniformModel;//, uniformView;
+    GLuint shaderID, uniformProjection, uniformModel, uniformView;//, uniformView;
     void CompileShader(const char *vertexCode, const char *fragmentCode);
 };

@@ -28,8 +28,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "${workspaceRoot}",
-      "program": "/build/Debug/outDebug"
+      "cwd": "/Users/qin/qinProject/OpenGL/OpenGLCourse/Course2ShaderAndTriangle",
+      "program": "/Users/qin/qinProject/OpenGL/OpenGLCourse/Course2ShaderAndTriangle/build/Debug/outDebug"
     }
   ]
 }
