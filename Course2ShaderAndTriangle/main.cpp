@@ -6,6 +6,7 @@
 Window mainWindow;
 DisplaySystem displaySystem;
 Camera camera;
+GLfloat now,deltaTime,lastTime;
 int main()
 {
     mainWindow = Window(800, 600);
@@ -16,6 +17,9 @@ int main()
     while (!mainWindow.getShouldClose())
     {
         // Get and handle user input events
+        GLfloat now = glfwGetTime();
+        deltaTime = now - lastTime;
+        lastTime = now;
         glfwPollEvents();
         camera.keyControl(mainWindow.getKeys(), 10);
         // Clear window
