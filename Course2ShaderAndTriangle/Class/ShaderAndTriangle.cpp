@@ -43,9 +43,9 @@ void CreateShaders()
 }
 void CreateObjects()
 {
-    brickTexture = Texture("Textures/brick.png");
+    brickTexture = Texture((char*)"Textures/brick.png");
     brickTexture.LoadTexture();
-    dirtyTexture = Texture("Textures/dirt.png");
+    dirtyTexture = Texture((char*)"Textures/dirt.png");
     dirtyTexture.LoadTexture();
 
     brickTexture.UseTexture();
