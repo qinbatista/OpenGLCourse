@@ -1,7 +1,8 @@
 
 #include "ShaderAndTriangle.h"
-#include "../InternalLibs/Mesh.h"
 #include "../InternalLibs/Shader.h"
+#include "../InternalLibs/Mesh.h"
+#include "../InternalLibs/Texture.h"
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -28,6 +29,9 @@ float minSize = 0.1f;
 static const char *fShader = "Shaders/shader.frag";
 // Vertex Shader
 static const char *vShader = "Shaders/shader.vert";
+
+Texture brickTexture;
+Texture dirtyTexture;
 void CreateShaders()
 {
     Shader *shader1 = new Shader();

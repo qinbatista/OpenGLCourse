@@ -1,3 +1,4 @@
+
 #include "GL/glew.h"
 #include "Class/DisplaySystem.h"
 #include "InternalLibs/Window.h"
@@ -16,10 +17,11 @@ int main()
     displaySystem.Awake(&camera);
     while (!mainWindow.getShouldClose())
     {
-        // Get and handle user input events
+        //time setting
         now = glfwGetTime();
         deltaTime = now - lastTime;
         lastTime = now;
+        // Get and handle user input events
         glfwPollEvents();
         //Camera view
         camera.keyControl(mainWindow.getKeys(), deltaTime);

@@ -2,8 +2,11 @@
   "cSpell.words": [
     "Framebuffer",
     "GLEW",
-    "OPENGL"
-  ],
+    "Mipmap",
+    "OPENGL",
+    "Parameteri",
+    "stbi"
+],
   "files.associations": {
     "vector": "cpp",
     "iosfwd": "cpp",
