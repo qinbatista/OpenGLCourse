@@ -55,16 +55,18 @@ void CreateObjects()
         2, 3, 0,
         0, 1, 2};
     GLfloat vertices[] = {
-        -1.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 1.0f,
-        1.0f, -1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f};
+        // x, y, z              u, v
+        -1.0f, -1.0f, 0.0f,     0.0f, 0.0f,
+        0.0f, -1.0f, 1.0f,      0.5f, 0.0f,
+        1.0f, -1.0f, 0.0f,      1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,       0.5f, 1.0f
+        };
     Mesh *obj1 = new Mesh();
-    obj1->CreateMesh(vertices, indices, 12, 12);
+    obj1->CreateMesh(vertices, indices, 20, 12);
     meshList.push_back(obj1);
 
     Mesh *obj2 = new Mesh();
-    obj2->CreateMesh(vertices, indices, 12, 12);
+    obj2->CreateMesh(vertices, indices, 20, 12);
     meshList.push_back(obj2);
 }
 void DrawTriangle(glm::mat4 DisplayProjection, glm::mat4 calculateViewMatrix)
