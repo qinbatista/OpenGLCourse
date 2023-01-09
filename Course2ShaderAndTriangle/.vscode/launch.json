@@ -7,7 +7,7 @@
       "request": "launch",
       "targetArchitecture": "arm64",
       "program": "${workspaceRoot}/main",
-      "preLaunchTask": "OpenGLBuild",
+      "preLaunchTask": "OpenGLBuildArm64",
       "internalConsoleOptions": "openOnSessionStart",
       "logging": {
         "moduleLoad": false,
@@ -28,8 +28,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/qin/qinProject/OpenGL/OpenGLCourse/Course2ShaderAndTriangle",
-      "program": "/Users/qin/qinProject/OpenGL/OpenGLCourse/Course2ShaderAndTriangle/build/Debug/outDebug"
+      "cwd": "${workspaceRoot}/Course2ShaderAndTriangle",
+      "program": "{${workspaceRoot}}Course2ShaderAndTriangle/build/Debug/outDebug"
     }
   ]
 }
