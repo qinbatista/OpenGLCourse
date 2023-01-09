@@ -2,7 +2,6 @@
 #include "ShaderAndTriangle.h"
 #include "../InternalLibs/Shader.h"
 #include "../InternalLibs/Mesh.h"
-#include "../InternalLibs/Texture.h"
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -12,6 +11,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <vector>
+#include "../InternalLibs/Texture.h"
+Texture brickTexture;
+Texture dirtyTexture;
 GLuint uniformModel, uniformProjection, uniformView;
 bool direction = true;
 float triOffset = 0.0f;
@@ -30,8 +32,6 @@ static const char *fShader = "Shaders/shader.frag";
 // Vertex Shader
 static const char *vShader = "Shaders/shader.vert";
 
-Texture brickTexture;
-Texture dirtyTexture;
 void CreateShaders()
 {
     Shader *shader1 = new Shader();
@@ -43,6 +43,12 @@ void CreateShaders()
 }
 void CreateObjects()
 {
+    brickTexture = Texture("Textures/brick.png");
+    brickTexture.LoadTexture();
+    dirtyTexture = Texture("Textures/dirt.png");
+    dirtyTexture.LoadTexture();
+
+    brickTexture.UseTexture();
     unsigned int indices[] = {
         0, 3, 1,
         1, 3, 2,
@@ -95,6 +101,7 @@ void DrawTriangle(glm::mat4 DisplayProjection, glm::mat4 calculateViewMatrix)
     glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(DisplayProjection));
     glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(calculateViewMatrix));
+    brickTexture.UseTexture();
     meshList[0]->RenderMesh();
 
     model = glm::mat4(1.0f);
@@ -102,6 +109,7 @@ void DrawTriangle(glm::mat4 DisplayProjection, glm::mat4 calculateViewMatrix)
     model = glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::scale(model, glm::vec3(curSize, curSize, 1.0f));
     glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+    dirtyTexture.UseTexture();
     meshList[1]->RenderMesh();
 
     glUseProgram(0);
