@@ -12,9 +12,10 @@
 #include <string.h>
 #include <vector>
 #include "../InternalLibs/Texture.h"
+#include "../InternalLibs/Light.h"
 Texture brickTexture;
 Texture dirtyTexture;
-GLuint uniformModel, uniformProjection, uniformView;
+GLuint uniformModel, uniformProjection, uniformView,uniformAmbientIntensity, uniformAmbientColor;
 bool direction = true;
 float triOffset = 0.0f;
 float triMaxOffset = 0.7f;
@@ -27,6 +28,7 @@ float sizeDirection = true;
 float curSize = 0.4f;
 float maxSize = 0.8f;
 float minSize = 0.1f;
+Light mainLight;
 // Fragment Shader
 static const char *fShader = "Shaders/shader.frag";
 // Vertex Shader
@@ -47,6 +49,10 @@ void CreateObjects()
     brickTexture.LoadTexture();
     dirtyTexture = Texture((char*)"Textures/dirt.png");
     dirtyTexture.LoadTexture();
+
+
+    mainLight = Light(1.0f, 1.0f,1.0f,0.5f);
+
 
     brickTexture.UseTexture();
     unsigned int indices[] = {
@@ -95,6 +101,9 @@ void DrawTriangle(glm::mat4 DisplayProjection, glm::mat4 calculateViewMatrix)
     uniformModel = shaderList[0].GetModelLocation();
     uniformProjection = shaderList[0].GetProjectionLocation();
     uniformView = shaderList[0].GetViewLocation();
+    uniformAmbientColor = shaderList[0].GetAmbientColorLocation();
+    uniformAmbientIntensity = shaderList[0].GetAmbientIntensityLocation();
+    mainLight.UseLight(uniformAmbientIntensity, uniformAmbientColor);
 
     glm::mat4 model(1.0f);
     model = glm::translate(model, glm::vec3(triOffset, 0.0f, -3.0f));

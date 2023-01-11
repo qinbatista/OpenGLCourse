@@ -1,9 +1,9 @@
 #pragma once
-#include <stdio.h>
-#include <string>
+#include <GL/glew.h>
 #include <fstream>
 #include <iostream>
-#include <GL/glew.h>
+#include <stdio.h>
+#include <string>
 class Shader
 {
 public:
@@ -14,11 +14,14 @@ public:
     GLuint GetProjectionLocation();
     GLuint GetModelLocation();
     GLuint GetViewLocation();
+    GLuint GetAmbientIntensityLocation();
+    GLuint GetAmbientColorLocation();
     void UseShader();
     void ClearShader();
     void AddShader(GLuint theProgram, const char *shaderCode, GLenum shaderType);
     ~Shader();
+
 private:
-    GLuint shaderID, uniformProjection, uniformModel, uniformView;//, uniformView;
+    GLuint shaderID, uniformProjection, uniformModel, uniformView, uniformAmbientIntensity, uniformAmbientColor; //, uniformView;
     void CompileShader(const char *vertexCode, const char *fragmentCode);
 };
