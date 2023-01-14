@@ -25,6 +25,7 @@ uniform DirectionLight directionLight;
 uniform Material material;
 
 uniform vec3 eyePosition;
+
 void main()
 {
 	vec4 ambientColour = vec4(directionLight.color, 1.0f) * directionLight.ambientIntensity;
@@ -42,7 +43,7 @@ void main()
 		if (specularFactor > 0.0f)
 		{
 			specularFactor = pow(specularFactor, material.shininess);
-			specularColor = vec4(directionLight.color * material.specularIntensity, 1.0f) * material.specularIntensity * specularFactor;
+			specularColor = vec4(directionLight.color * material.specularIntensity * specularFactor, 1.0f);
 		}
 	}
 

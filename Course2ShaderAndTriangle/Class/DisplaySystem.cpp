@@ -22,7 +22,7 @@ void DisplaySystem::Awake(Camera *camera)
 }
 void DisplaySystem::Update()
 {
-    DrawTriangle(DisplayProjection,displayCamera->calculateViewMatrix());
+    DrawTriangle(DisplayProjection,displayCamera);
 }
 DisplaySystem::~DisplaySystem()
 {
