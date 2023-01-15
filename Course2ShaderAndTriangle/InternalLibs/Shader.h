@@ -4,6 +4,8 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
+#include "DirectionLight.h"
+#include "PointLight.h"
 class Shader
 {
 public:
@@ -23,12 +25,18 @@ public:
 	GLuint GetEyePositionLocation();
 	void UseShader();
 	void ClearShader();
-	void AddShader(GLuint theProgram, const char *shaderCode, GLenum shaderType);
 	~Shader();
 
 private:
+	int pointLightCount;
 	GLuint shaderID, uniformProjection, uniformModel, uniformView, uniformEyePosition,
-		uniformAmbientIntensity, uniformAmbientColor, uniformDiffuseIntensity, uniformDirection,
 		uniformSpecularIntensity, uniformShininess;
+	struct {
+		GLuint uniformColor;
+		GLuint uniformAmbientIntensity;
+		GLuint uniformDiffuseIntensity;
+		GLuint uniformDirection;
+	} uniformDirectionLight;
 	void CompileShader(const char *vertexCode, const char *fragmentCode);
+	void AddShader(GLuint theProgram, const char *shaderCode, GLenum shaderType);
 };
