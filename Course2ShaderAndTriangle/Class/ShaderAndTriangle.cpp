@@ -153,10 +153,6 @@ void DrawTriangle(glm::mat4 DisplayProjection, Camera *camera)
 	uniformModel = shaderList[0].GetModelLocation();
 	uniformProjection = shaderList[0].GetProjectionLocation();
 	uniformView = shaderList[0].GetViewLocation();
-	uniformAmbientColor = shaderList[0].GetAmbientColorLocation();
-	uniformAmbientIntensity = shaderList[0].GetAmbientIntensityLocation();
-	uniformDirection = shaderList[0].GetDirectionLocation();
-	uniformDiffuseIntensity = shaderList[0].GetDiffuseIntensityLocation();
 	uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 	uniformShininess = shaderList[0].GetShininessLocation();
 	uniformEyePosition = shaderList[0].GetEyePositionLocation();
