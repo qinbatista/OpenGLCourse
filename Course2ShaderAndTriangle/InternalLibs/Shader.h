@@ -6,7 +6,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
-#define MAX_POINT_LIGHTS 3
+#include "CommonValues.h"
 class Shader
 {
 public:
@@ -25,6 +25,7 @@ public:
 	GLuint GetShininessLocation();
 	GLuint GetEyePositionLocation();
 	void SetDirectionalLight(DirectionLight *dLight);
+	void SetPointLights(PointLight *pLight, unsigned int lightCount);
 	void UseShader();
 	void ClearShader();
 	~Shader();

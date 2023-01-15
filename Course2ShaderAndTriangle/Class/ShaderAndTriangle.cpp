@@ -1,9 +1,11 @@
 
 #include "ShaderAndTriangle.h"
 #include "../InternalLibs/Camera.h"
+#include "../InternalLibs/CommonValues.h"
 #include "../InternalLibs/DirectionLight.h"
 #include "../InternalLibs/Material.h"
 #include "../InternalLibs/Mesh.h"
+#include "../InternalLibs/PointLight.h"
 #include "../InternalLibs/Shader.h"
 #include "../InternalLibs/Texture.h"
 #include "GL/glew.h"
@@ -23,7 +25,7 @@ Material dullMaterial;
 
 GLuint uniformProjection, uniformModel, uniformView, uniformEyePosition,
 	uniformSpecularIntensity, uniformShininess;
-
+unsigned int pointLightCount = 0;
 bool direction = true;
 float triOffset = 0.0f;
 float triMaxOffset = 0.7f;
@@ -37,6 +39,7 @@ float curSize = 0.4f;
 float maxSize = 0.8f;
 float minSize = 0.1f;
 DirectionLight mainLight;
+PointLight pointLights[MAX_POINT_LIGHTS];
 // Fragment Shader
 static const char *fShader = "Shaders/shader.frag";
 // Vertex Shader
@@ -105,7 +108,12 @@ void CreateObjects()
 	mainLight = DirectionLight(1.0f, 1.0f, 1.0f,
 							   0.1f, 0.3f,
 							   0.0f, 0.0f, -1.0f);
-
+	pointLightCount = 0;
+	pointLights[0] = PointLight(0.0f, 0.0f, 1.0f,
+								0.1f, 1.0f,
+								-4.0f, 0.0f, 0.0f,
+								0.3f, 0.2f, 0.1f);
+	pointLightCount++;
 	brickTexture.UseTexture();
 	unsigned int indices[] = {
 		0, 3, 1,
@@ -153,15 +161,17 @@ void DrawTriangle(glm::mat4 DisplayProjection, Camera *camera)
 	uniformModel = shaderList[0].GetModelLocation();
 	uniformProjection = shaderList[0].GetProjectionLocation();
 	uniformView = shaderList[0].GetViewLocation();
+	uniformEyePosition = shaderList[0].GetEyePositionLocation();
 	uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 	uniformShininess = shaderList[0].GetShininessLocation();
-	uniformEyePosition = shaderList[0].GetEyePositionLocation();
+
+	shaderList[0].SetDirectionalLight(&mainLight);
+	shaderList[0].SetPointLights(pointLights, pointLightCount);
 
 	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(DisplayProjection));
 	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
 	glUniform3f(uniformEyePosition, camera->getCameraPosition().x, camera->getCameraPosition().y, camera->getCameraPosition().z);
 
-	shaderList[0].SetDirectionalLight(&mainLight);
 	// mainLight.UseLight(uniformAmbientIntensity, uniformAmbientColor, uniformDiffuseIntensity, uniformDirection);
 	glm::mat4 model(1.0f);
 	model = glm::translate(model, glm::vec3(triOffset, 0.0f, -3.0f));

@@ -68,16 +68,16 @@ void Shader::CompileShader(const char *vertexCode, const char *fragmentCode)
 	uniformModel = glGetUniformLocation(shaderID, "model");
 	uniformView = glGetUniformLocation(shaderID, "view");
 
-	uniformDirectionLight.uniformColor = glGetUniformLocation(shaderID, "directionLight.color");
-	uniformDirectionLight.uniformAmbientIntensity = glGetUniformLocation(shaderID, "directionLight.ambientIntensity");
+	uniformDirectionLight.uniformColor = glGetUniformLocation(shaderID, "directionLight.base.color");
+	uniformDirectionLight.uniformAmbientIntensity = glGetUniformLocation(shaderID, "directionLight.base.ambientIntensity");
 	uniformDirectionLight.uniformDirection = glGetUniformLocation(shaderID, "directionLight.direction");
-	uniformDirectionLight.uniformDiffuseIntensity = glGetUniformLocation(shaderID, "directionLight.diffuseIntensity");
+	uniformDirectionLight.uniformDiffuseIntensity = glGetUniformLocation(shaderID, "directionLight.base.diffuseIntensity");
 	uniformSpecularIntensity = glGetUniformLocation(shaderID, "material.specularIntensity");
 	uniformShininess = glGetUniformLocation(shaderID, "material.shininess");
 	uniformEyePosition = glGetUniformLocation(shaderID, "eyePosition");
 
 	uniformPointLightCount = glGetUniformLocation(shaderID, "pointLightCount");
-	for (size_t i = 0; i < MAX_POINT_LIGHTS; i++)
+	for (int i = 0; i < MAX_POINT_LIGHTS; i++)
 	{
 		char locBuff[100] = {'\0'};
 		snprintf(locBuff, sizeof(locBuff), "pointLights[%d].base.color", i);
@@ -140,6 +140,20 @@ void Shader::SetDirectionalLight(DirectionLight *dLight)
 {
 	dLight->UseLight(uniformDirectionLight.uniformAmbientIntensity, uniformDirectionLight.uniformColor,
 					 uniformDirectionLight.uniformDiffuseIntensity, uniformDirectionLight.uniformDirection);
+}
+void Shader::SetPointLights(PointLight *pLight, unsigned int lightCount)
+{
+	if (lightCount > MAX_POINT_LIGHTS)
+	{
+		lightCount = MAX_POINT_LIGHTS;
+	}
+	glUniform1i(uniformPointLightCount, lightCount);
+	for (int i = 0; i < lightCount; i++)
+	{
+		pLight[i].UseLight(uniformPointLight[i].uniformAmbientIntensity, uniformPointLight[i].uniformColor,
+						   uniformPointLight[i].uniformDiffuseIntensity, uniformPointLight[i].uniformPosition,
+						   uniformPointLight[i].uniformConstant, uniformPointLight[i].uniformLinear, uniformPointLight[i].uniformExponent);
+	}
 }
 void Shader::UseShader()
 {
