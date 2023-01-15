@@ -23,6 +23,7 @@ public:
 	GLuint GetSpecularIntensityLocation();
 	GLuint GetShininessLocation();
 	GLuint GetEyePositionLocation();
+	void SetDirectionalLight(DirectionLight *dLight);
 	void UseShader();
 	void ClearShader();
 	~Shader();

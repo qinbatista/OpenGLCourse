@@ -21,8 +21,8 @@ Texture dirtyTexture;
 Material shinyMaterial;
 Material dullMaterial;
 
-GLuint uniformModel, uniformProjection, uniformView, uniformAmbientIntensity, uniformAmbientColor, uniformDiffuseIntensity, uniformDirection,
-	uniformSpecularIntensity, uniformShininess, uniformEyePosition;
+GLuint uniformProjection, uniformModel, uniformView, uniformEyePosition,
+	uniformSpecularIntensity, uniformShininess;
 
 bool direction = true;
 float triOffset = 0.0f;
@@ -165,7 +165,8 @@ void DrawTriangle(glm::mat4 DisplayProjection, Camera *camera)
 	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
 	glUniform3f(uniformEyePosition, camera->getCameraPosition().x, camera->getCameraPosition().y, camera->getCameraPosition().z);
 
-	mainLight.UseLight(uniformAmbientIntensity, uniformAmbientColor, uniformDiffuseIntensity, uniformDirection);
+	shaderList[0].SetDirectionalLight(&mainLight);
+	// mainLight.UseLight(uniformAmbientIntensity, uniformAmbientColor, uniformDiffuseIntensity, uniformDirection);
 	glm::mat4 model(1.0f);
 	model = glm::translate(model, glm::vec3(triOffset, 0.0f, -3.0f));
 	model = glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
