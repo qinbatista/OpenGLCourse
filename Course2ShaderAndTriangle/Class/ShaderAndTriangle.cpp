@@ -1,11 +1,11 @@
 
 #include "ShaderAndTriangle.h"
-#include "../InternalLibs/Light.h"
+#include "../InternalLibs/Camera.h"
+#include "../InternalLibs/DirectionLight.h"
 #include "../InternalLibs/Material.h"
 #include "../InternalLibs/Mesh.h"
 #include "../InternalLibs/Shader.h"
 #include "../InternalLibs/Texture.h"
-#include "../InternalLibs/Camera.h"
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -36,7 +36,7 @@ float sizeDirection = true;
 float curSize = 0.4f;
 float maxSize = 0.8f;
 float minSize = 0.1f;
-Light mainLight;
+DirectionLight mainLight;
 // Fragment Shader
 static const char *fShader = "Shaders/shader.frag";
 // Vertex Shader
@@ -102,7 +102,9 @@ void CreateObjects()
 	shinyMaterial = Material(1.0f, 32);
 	dullMaterial = Material(0.3f, 4);
 
-	mainLight = Light(1.0f, 1.0f, 1.0f, 0.2f, 2.0f, -1.0f, -2.0f, 0.3f);
+	mainLight = DirectionLight(1.0f, 1.0f, 1.0f,
+							   0.1f, 0.3f,
+							   0.0f, 0.0f, -1.0f);
 
 	brickTexture.UseTexture();
 	unsigned int indices[] = {
@@ -111,8 +113,8 @@ void CreateObjects()
 		2, 3, 0,
 		0, 1, 2};
 	GLfloat vertices[] = {
-		// x, y, z              u, v
-		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		// x, y, z              u, v 		 nx, ny, nz
+		-1.0f, -1.0f, -0.6f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, -1.0f, 1.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f,
 		1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f};
